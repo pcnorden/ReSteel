@@ -1,0 +1,5 @@
+# Ignore the build folder in src folder
+src/build/
+
+# Ignore the draw_on_oled file that is created when compiled in "test code src" folder
+test code src/draw_on_oled

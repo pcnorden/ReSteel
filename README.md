@@ -1,4 +1,4 @@
-# ReSteel
+ # ReSteel
 My project working on reverse-engineering the USB protocol for the Arctis Pro Wireless headset made by SteelSeries.
 
 The end result is hopefully a driver for Linux or some utility so I can get the charge percentage from the base station and later on include more features.
