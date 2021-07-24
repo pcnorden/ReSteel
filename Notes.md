@@ -50,6 +50,13 @@ Note about the battery percentage in the headset if you request it: While the he
 
 Due to the USB capture that I made with wireshark setting the second byte of the feature report to `0xAA` a lot when it wants to get information, I believe that the first byte of the feature report is some variable that you can access and the second byte maybe telling the base station if you are setting the value, or just getting it.
 
+Table of discovered values and what they do:
+|First byte|Second byte|Description|
+|---|---|---|
+|`0x40`|`0xAA`|Requests the battery level for the headset, returns battery percentage in 25% increments. If headset is disconnected, this will just return previous value that was gathered.|
+|`0x41`|`0xAA`|Requests some data from the base station, but not entirely sure yet what is what in the data, though you can get if the headset is connected by bit-masking the first byte returned with `0x04`. Returns 2 bytes though: `0x04 0x02` when headset is connected, `0x02 0x02` when headset is not connected.|
+|`0x42`|`0xAA`|Requests the battery level for the battery in the charging slot. Charge level is indicated with 25% increments in the first byte, rest are zero. If battery is removed, the first byte will be `0x00`|
+
 [spirit]: https://github.com/Spirit532
 [#1]: https://github.com/pcnorden/ReSteel/issues/1
 [hidapi]: https://github.com/libusb/hidapi
