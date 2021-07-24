@@ -60,23 +60,24 @@ void print_battery(){
 	res = hid_init();
 	handle = hid_open(0x1038, 0x1290, NULL);
 	hid_set_nonblocking(handle, 0);
+
 	unsigned char data[33] = {0};
+
 	data[0] = 0x00;
-	data[1] = 0x40;
-	data[2] = 0xAA; // Ask for current battery level in the headset
+	data[1] = 0x40; // Battery in the headset
+	data[2] = 0xAA; // Ask for data
 	res = hid_send_feature_report(handle, data, 33);
-	if(res == 33){
-		wprintf(L"HID battery feature report sent successfully, awaiting response\n");
-	}else{
-		wprintf(L"HID battery feature report sent with problems. Total sent bytes: %d\n", res);
-	}
 	unsigned char received_data[33];
 	res = hid_read(handle, received_data, 33);
-	if(res == 32){
-		wprintf(L"Batter level is %d out of 4\n", received_data[0]);
-	}else{
-		wprintf(L"Not enough bytes returned. %d bytes got back\n", res);
-	}
+	wprintf(L"Battery level is %d out of 4 in the headset\n", received_data[0]);
+
+	data[0] = 0x00; // Report ID
+	data[1] = 0x42; // Battery in the charger?
+	data[2] = 0xAA; // Ask for data
+	res = hid_send_feature_report(handle, data, 33);
+	res = hid_read(handle, received_data, 33);
+	wprintf(L"Battery level is %d out of 4 in the charger\n", received_data[0]);
+
 	hid_close(handle);
 	res = hid_exit();
 }
