@@ -92,9 +92,40 @@ void print_battery(){
 	res = hid_exit();
 }
 
+void print_version(){
+	int res;
+	hid_device* handle;
+	res = hid_init();
+	handle = hid_open(0x1038, 0x1290, NULL);
+	hid_set_nonblocking(handle, 0);
+
+	unsigned char data[33] = {0};
+	unsigned char received_data[32];
+
+	data[0] = 0x00; // Report ID, not something that we use.
+	data[1] = 0x10; // Get base station versions.
+	data[2] = 0xAA; // Ask for data.
+	res = hid_send_feature_report(handle, data, 33);
+	res = hid_read(handle, received_data, 32);
+	wprintf(L"MCU Version: %d.%d.00\n", received_data[1], received_data[0]);
+	wprintf(L"TX Version: %d.%d.00\n", received_data[3], received_data[2]);
+
+	hid_close(handle);
+	res = hid_exit();
+}
+
+void print_usage(){
+	printf("Arguments:\n");
+	printf("\td\tTries to draw 4 pixels on the OLED display\n");
+	printf("\tb\tTries to get the battery level of the headset if it's currently powered on\n");
+	printf("\tp\tPrint various information about the Arctis Pro Wireless headset that is normal API usage\n");
+	printf("\tv\tTries to retrieve the version data of the base station\n");
+}
+
 int main(int argc, char* argv[]){
 	if(argc == 1){
-		printf("Arguments:\n\td\tTries to draw 4 pixels on the OLED display\n\tb\tTries to get the battery level of the headset if it's currently powered on\n\tp\tPrint various information about the Arctis wireless pro basestation that is normal API usage.\n");
+		//printf("Arguments:\n\td\tTries to draw 4 pixels on the OLED display\n\tb\tTries to get the battery level of the headset if it's currently powered on\n\tp\tPrint various information about the Arctis wireless pro basestation that is normal API usage.\n");
+		print_usage();
 		return EXIT_SUCCESS;
 	}else{
 		if(strcmp(argv[1], "b") == 0){
@@ -103,6 +134,8 @@ int main(int argc, char* argv[]){
 			draw_pixels();
 		}else if(strcmp(argv[1], "p") == 0){
 			print_vendor_data();
+		}else if(strcmp(argv[1], "v") == 0){
+			print_version();
 		}
 	}
 	return EXIT_SUCCESS;

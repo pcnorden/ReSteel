@@ -56,6 +56,7 @@ Table of discovered values and what they do:
 |`0x40`|`0xAA`|Requests the battery level for the headset, returns battery percentage in 25% increments. If headset is disconnected, this will just return previous value that was gathered.|
 |`0x41`|`0xAA`|Requests some data from the base station, but not entirely sure yet what is what in the data, though you can get if the headset is connected by bit-masking the first byte returned with `0x04`. Returns 2 bytes though: `0x04 0x02` when headset is connected, `0x02 0x02` when headset is not connected.|
 |`0x42`|`0xAA`|Requests the battery level for the battery in the charging slot. Charge level is indicated with 25% increments in the first byte, rest are zero. If battery is removed, the first byte will be `0x00`|
+|`0x10`|`0xAA`|Requests the version of the firmware on the base station, which returns the MCU and TX firmware version in the format of `[MCU Minor][MCU Major][TX Minor][TX Major]` then there is 4 extra bytes more of data that I don't know yet what it means.|
 
 [spirit]: https://github.com/Spirit532
 [#1]: https://github.com/pcnorden/ReSteel/issues/1
