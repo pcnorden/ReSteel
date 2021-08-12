@@ -6,7 +6,7 @@
 
 * Open a terminal window, non-sudo.
 * `git clone https://github.com/pcnorden/ReSteel`
-* `sudo apt install build-essentials libhidapi-hidraw0`
+* `sudo apt install build-essentials libhidapi-dev`
 * `cd "ReSteel/test code src"`
 * `make`
 
