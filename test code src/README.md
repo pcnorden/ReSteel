@@ -10,6 +10,6 @@
 * `cd "ReSteel/test code src"`
 * `make`
 
-This should output a file that you should be able to run called `arctis_draw_on_oled`, but be warned that you need to run the program as sudo due to hidapi library otherwise segfaulting!
+This should output a file that you should be able to run called `draw_on_oled`, but be warned that you need to run the program as sudo due to hidapi library otherwise segfaulting!
 
 Also, the program will list operations that you can run when you just run the program without arguments.
